@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Created by Quentin in 2008</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2a0a5e;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --creation-color: #10b981;
+            --avatar-color: #3b82f6;
+            --dark-bg: #0f0521;
+            --light-bg: #f8fafc;
+            --text-light: #ffffff;
+            --text-dark: #1e293b;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: rgba(15, 5, 33, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+        }
+
+        .creation-badge {
+            background-color: var(--creation-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-left: 5px;
+            vertical-align: super;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+            background-color: rgba(124, 58, 237, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 80%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Creation Banner */
+        .creation-banner {
+            background: linear-gradient(90deg, var(--creation-color), #059669);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 80px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .creation-banner i {
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(15, 5, 33, 0.9), rgba(42, 10, 94, 0.9)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--creation-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: #e2e8f0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.6);
+        }
+
+        /* Founder Section */
+        .founder-section {
+            padding: 100px 0;
+            background-color: rgba(15, 5, 33, 0.8);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--accent-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .founder-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .founder-avatar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--avatar-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .avatar-circle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.6);
+        }
+
+        .avatar-circle::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, transparent 30%, rgba(255,255,255,0.1) 70%);
+            top: -25%;
+            left: -25%;
+            border-radius: 50%;
+            animation: rotate 15s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .avatar-letter {
+            font-size: 8rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .avatar-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .avatar-title {
+            font-size: 1.2rem;
+            color: var(--creation-color);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .founder-info {
+            flex: 1;
+        }
+
+        .founder-name {
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .founder-title {
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .founder-bio {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #cbd5e1;
+        }
+
+        .creation-highlight {
+            background-color: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--creation-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .creation-highlight h3 {
+            color: var(--creation-color);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .creation-highlight p {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Games Section */
+        .games-section {
+            padding: 100px 0;
+            background-color: var(--dark-bg);
+        }
+
+        .games-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: rgba(124, 58, 237, 0.1);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .game-image iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .game-info {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .game-genre {
+            display: inline-block;
+            background-color: rgba(124, 58, 237, 0.2);
+            color: var(--secondary-color);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .game-description {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        /* Milestone Section */
+        .milestone-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(42, 10, 94, 0.8), rgba(15, 5, 33, 0.9));
+            text-align: center;
+        }
+
+        .milestone-title {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+        }
+
+        .milestone-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .milestone {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            width: 250px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .milestone:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .milestone-icon {
+            font-size: 2.5rem;
+            color: var(--creation-color);
+            margin-bottom: 15px;
+        }
+
+        .milestone-year {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .milestone-text {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(15, 5, 33, 0.95);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-about p {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(124, 58, 237, 0.2);
+            color: var(--text-light);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-heading {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-creation {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--creation-color);
+        }
+
+        .footer-creation h4 {
+            color: var(--creation-color);
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .founder-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .milestone-container {
+                gap: 20px;
+            }
+        }
+
+
+@media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                background-color: rgba(15, 5, 33, 0.95);
+                height: 100vh;
+                width: 250px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: right 0.3s ease;
+            }
+
+            .nav-links.mobile-active {
+                right: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo"><i class="fas fa-gamepad"></i> GameHub <span class="creation-badge">2008</span></a>
+            <nav class="nav-links">
+                <a href="#hero" class="active">Home</a>
+                <a href="#founder">Founder</a>
+                <a href="#games">Games</a>
+                <a href="#milestones">Milestones</a>
+                <a href="#footer">Contact</a>
+            </nav>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+        <div class="creation-banner">
+            <i class="fas fa-star"></i> Founded by Quentin in 2008
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <h1>Welcome to GameHub</h1>
+        <p>The ultimate hub for classic and modern web games. Explore, play, and enjoy!</p>
+        <a href="#games" class="cta-button">Play Now</a>
+    </section>
+
+    <!-- Founder Section -->
+    <section id="founder" class="founder-section container">
+        <h2 class="section-title">Founder</h2>
+        <div class="founder-container">
+            <div class="founder-avatar">
+                <div class="avatar-circle">
+                    <span class="avatar-letter">Q</span>
+                </div>
+                <div class="avatar-name">Quentin Ogeko</div>
+                <div class="avatar-title">GameHub Creator</div>
+            </div>
+            <div class="founder-info">
+                <h3 class="founder-name">Quentin Ogeko</h3>
+                <p class="founder-title">Visionary Gamer & Developer</p>
+                <p class="founder-bio">Quentin created GameHub in 2008 to bring the best web games together for everyone to enjoy. From classic arcade games to modern interactive experiences, GameHub has it all.</p>
+                <div class="creation-highlight">
+                    <h3>Legacy</h3>
+                    <p>Over 15 years of gaming history brought online for the community!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="games-section container">
+        <h2 class="section-title">Playable Games</h2>
+        <div class="games-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="arcade">Arcade</button>
+            <button class="filter-btn" data-filter="puzzle">Puzzle</button>
+            <button class="filter-btn" data-filter="sports">Sports</button>
+        </div>
+        <div class="games-grid">
+            <!-- Game 1 -->
+            <div class="game-card" data-genre="arcade">
+                <div class="game-image">
+                    <iframe src="https://armorgames.com/play/43215" title="Arcade Game 1"></iframe>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Space Shooter</h3>
+                    <span class="game-genre">Arcade</span>
+                    <p class="game-description">Pilot your spaceship and defeat waves of enemies!</p>
+                </div>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="game-card" data-genre="puzzle">
+                <div class="game-image">
+                    <iframe src="https://armorgames.com/play/11111" title="Puzzle Game 1"></iframe>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Brain Teaser</h3>
+                    <span class="game-genre">Puzzle</span>
+                    <p class="game-description">Challenge your logic with tricky puzzles!</p>
+                </div>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="game-card" data-genre="sports">
+                <div class="game-image">
+                    <iframe src="https://armorgames.com/play/22222" title="Sports Game 1"></iframe>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Soccer Stars</h3>
+                    <span class="game-genre">Sports</span>
+                    <p class="game-description">Compete in fast-paced soccer matches!</p>
+                </div>
+            </div>
+
+            <!-- Game 4 -->
+            <div class="game-card" data-genre="arcade">
+                <div class="game-image">
+                    <iframe src="https://armorgames.com/play/33333" title="Arcade Game 2"></iframe>
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Pixel Runner</h3>
+                    <span class="game-genre">Arcade</span>
+                    <p class="game-description">Run, jump, and avoid obstacles in this endless runner!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones Section -->
+    <section id="milestones" class="milestone-section">
+        <h2 class="milestone-title">Milestones</h2>
+        <div class="milestone-container container">
+            <div class="milestone">
+                <i class="fas fa-trophy milestone-icon"></i>
+                <div class="milestone-year">2008</div>
+                <div class="milestone-text">GameHub was founded</div>
+            </div>
+            <div class="milestone">
+                <i class="fas fa-gamepad milestone-icon"></i>
+                <div class="milestone-year">2012</div>
+                <div class="milestone-text">First 50 games added</div>
+            </div>
+            <div class="milestone">
+                <i class="fas fa-users milestone-icon"></i>
+                <div class="milestone-year">2020</div>
+                <div class="milestone-text">Reached 1M players</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container footer-content">
+            <div>
+                <span class="footer-logo">GameHub</span>
+                <p>Your ultimate destination for web games, since 2008.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-heading">Explore</h4>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#founder">Founder</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#milestones">Milestones</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-creation">
+            <h4>Founded by Quentin in 2008</h4>
+        </div>
+        <div class="copyright">
+            &copy; 2008 - 2025 GameHub. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JS for Mobile Menu and Filtering -->
+    <script>
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-active');
+        });
+
+        // Game filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                gameCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.genre === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
